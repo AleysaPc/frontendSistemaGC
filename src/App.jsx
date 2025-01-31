@@ -3,6 +3,7 @@ import { RegRecibidoPage } from "./pages/RegRecibidoPage"; //2
 import { RegRecibidoFormPage } from "./pages/RegRecibidoFormPage"; //3
 import { lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppRoutes from "../src/routes/AppRoutes";
 
 const queryClient = new QueryClient();
 
@@ -18,15 +19,14 @@ function App() {
         {/*<Navigation />*/}
 
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          {/*<Route path="/" element={<Navigate to="/registro-recibido" />} />*/}
+          <Route path="/" element={<AppRoutes />} />
+          {/*<Route path="/register" element={<Register />} />
+
+          <Route path="/" element={<Navigate to="/registro-recibido" />} />
           <Route path="/registro-recibido" element={<RegRecibidoPage />} />
           <Route
             path="/registro-recibido-form"
-            element={<RegRecibidoFormPage />}
-          />
+            element={<RegRecibidoFormPage />} */}
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
