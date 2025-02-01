@@ -1,48 +1,46 @@
 import { Link } from "react-router-dom";
-import { LogOut } from "lucide-react"; // Icono de cerrar sesión (puedes agregar más según necesites)
-import logo from "../assets/logo.png"; // Logo de la institución
+import { LogOut, Stamp } from "lucide-react"; // Importamos el icono de sello
+import logo from "../assets/you.jpg"; // Logo de la institución
 
 const Header = ({ username }) => {
   const handleLogout = () => {
-    // Aquí iría la lógica para cerrar sesión, por ejemplo, limpiar tokens o redirigir.
     console.log("Cerrar sesión");
   };
 
   return (
-    <header className="bg-gray-800 text-white p-4">
-      {/* Fila 1 - Nombre del Usuario y Botón Cerrar Sesión */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-lg font-semibold">Bienvenido, {username}</div>
+    <header className="text-white ">
+      {/* Fila 1 - Logo, Nombre de la Institución y boton */}
+      <div className="flex justify-between items-center bg-gray-800">
+        <div className="flex items-center py-3 px-5">
+          <img src={logo} alt="Logo Institución" className="w-12 h-12 mr-4" />
+          <div className="text-2xl font-bold">EMPRESA AF</div>
+        </div>
         <button
           onClick={handleLogout}
-          className="flex items-center bg-red-600 p-2 rounded hover:bg-red-700"
+          className="flex items-center bg-transparent p-2"
         >
-          <LogOut className="mr-2" />
-          Cerrar sesión
+          <LogOut className="text-xl text-red-600 hover:text-white " />
+          <h1 className="text-white text-lg p-2">Salir</h1>
         </button>
       </div>
 
-      {/* Fila 2 - Logo y Botones */}
-      <div className="flex justify-between items-center">
-        {/* Logo de la institución */}
-        <div className="flex items-center">
-          <img src={logo} alt="Logo Institución" className="w-12 h-12 mr-4" />
-          <div className="text-2xl font-bold">Mi Institución</div>
-        </div>
+      {/* Fila 2 - Bienvenida (Izquierda), Sello (Centro), Configuración (Derecha) */}
+      <div className="flex items-center gap-x-14 bg-stone-500 px-5"> 
 
-        {/* Botones de acción o navegación */}
-        <div className="flex gap-4">
-          <Link to="/" className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">
-            Inicio
-          </Link>
-          <Link
-            to="/configuracion"
-            className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
-          >
-            Configuración
-          </Link>
-          {/* Aquí puedes agregar más botones si es necesario */}
+        {/* Alinea elementos y agrega separación */}
+        <div className="text-center font-normal">
+          Bienvenido: Admin {username}
         </div>
+        <Link
+          to="/"
+          className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-400"
+        >
+          <Stamp className="text-white w-6 h-6" />
+          <h1 className="text-white text-lg">Sello</h1>
+        </Link>
+      </div>
+      <div className="bg-gray-800 ">
+        <br />
       </div>
     </header>
   );

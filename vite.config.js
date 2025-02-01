@@ -11,4 +11,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'), // Alias @ para la carpeta src
     },
   },
+  
 });

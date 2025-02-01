@@ -4,8 +4,8 @@ import Header from "../components/Headers";
 
 function Home (){
     return(
-       <><Navigation /><Sidebar />< Header />
+       <><Header /><Sidebar /><Navigation />
        </>
     )
 }
-export default Home
+export default Home;
