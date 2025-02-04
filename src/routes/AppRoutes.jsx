@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom"; 
 import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { RegistroPage } from "../pages/recibido/RegistroPage"
+import { RegistroFormPage } from "../pages/recibido/RegistroFormPage"
 
-const FallbackComponent = () => <div>Hubo un error al cargar la página</div>;
+
 
 //Login y otras páginas
 const Login = lazy(() => import("@/components/Login"));
@@ -12,6 +14,9 @@ const PasswordResetRequest = lazy(() =>
   import("@/components/PasswordResetRequest")
 );
 const PasswordReset = lazy(() => import("@/components/PasswordReset"));
+
+
+const FallbackComponent = () => <div>Hubo un error al cargar la página</div>;
 
 const AppRoutes = () => {
   return (
@@ -24,6 +29,10 @@ const AppRoutes = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/password-reset" element={<PasswordReset />} />
+
+          <Route path="/registro" element={<RegistroPage />}/>
+          <Route path="/nuevo-registro" element={<RegistroFormPage />}/>
+
         </Routes>
       </Suspense>
     </ErrorBoundary>

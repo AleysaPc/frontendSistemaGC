@@ -5,6 +5,7 @@ import {
   Settings,
   FilePlus2,
   ChevronDown,
+  Inbox,
 } from "lucide-react"; // Íconos
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const Sidebar = () => {
       onClick: toggleDropdown, // Usar la función para abrir el dropdown
       isDropdown: true, // Marcar este ítem como un dropdown
     },
+    { name: "Bandeja de Entrada", icon: <Inbox />, path: "/registro"}, //Solo pusimos registro...
     { name: "Documentos", icon: <FileText />, path: "/documentos" },
     { name: "Configuración", icon: <Settings />, path: "/configuracion" },
   ];
