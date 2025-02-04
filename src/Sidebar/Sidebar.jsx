@@ -67,7 +67,7 @@ const Sidebar = () => {
                       Enviado
                     </Link>
                     <Link
-                      to="/recibido"
+                      to="/nuevo-registro"
                       className="block p-2 text-gray-300 hover:bg-gray-700 rounded"
                     >
                       Recibido

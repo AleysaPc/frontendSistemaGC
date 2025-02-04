@@ -1,5 +1,9 @@
+import Header from "../../components/Header"
+
 export function RegistroFormPage(){
     return(
-        <div>RegistoFormPage</div>
+        <div>
+            <><Header/></>
+            RegistoFormPage</div>
     )
 }
