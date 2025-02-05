@@ -23,7 +23,7 @@ const Sidebar = () => {
       onClick: toggleDropdown, // Usar la función para abrir el dropdown
       isDropdown: true, // Marcar este ítem como un dropdown
     },
-    { name: "Bandeja de Entrada", icon: <Inbox />, path: "/registro"}, //Solo pusimos registro...
+    { name: "Bandeja de Entrada", icon: <Inbox />, path: "/registro" }, //Solo pusimos registro...
     { name: "Documentos", icon: <FileText />, path: "/documentos" },
     { name: "Configuración", icon: <Settings />, path: "/configuracion" },
   ];
@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <aside className="bg-gray-800 text-white h-screen w-50 p-5">
+      <aside className="bg-gray-800 text-white h-screen w-1/4 p-5">
         {/* Menú */}
         <nav className="space-y-3">
           {menuItems.map((item, index) => {
@@ -46,19 +46,17 @@ const Sidebar = () => {
                     {item.icon}
                     <span className="flex-1">{item.name}</span>
                     <ChevronDown
-                      className={`transition-transform ${
-                        isDropdownOpen ? "rotate-180" : ""
-                      }`}
+                      className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
                   {/* Submenú */}
                   <div
-                    className={`ml-6 space-y-2 transition-all duration-300 ease-in-out ${
-                      isDropdownOpen
-                        ? "max-h-[200px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    } overflow-hidden`}
+                    className={`ml-6 space-y-2 transition-all duration-300 ease-in-out ${isDropdownOpen
+                      ? "max-h-[200px] opacity-100"
+                      : "max-h-0 opacity-0"
+                      } overflow-hidden`}
                   >
                     <Link
                       to="/enviado"
@@ -91,10 +89,10 @@ const Sidebar = () => {
           })}
         </nav>
       </aside>
-
       {/* Contenido Principal */}
       <div className="flex-1 p-5">
         <h1>Bienvenido a la App</h1>
+        {/* Aquí se podría incluir tu lista o tabla */}
       </div>
     </div>
   );
