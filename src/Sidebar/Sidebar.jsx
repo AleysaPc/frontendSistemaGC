@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   Home,
   FileText,
@@ -6,96 +8,101 @@ import {
   FilePlus2,
   ChevronDown,
   Inbox,
-} from "lucide-react"; // Íconos
-import { Link } from "react-router-dom";
+} from "lucide-react";
 
-const Sidebar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Estado para el dropdown
+const SidebarMenu = React.memo(
+  ({ title, icon: Icon, items, isOpen, toggleMenu, path }) => (
+    <li className="mb-2 rounded hover:shadow hover:bg-gray-500 py-2">
+      {/* Si no hay items, renderiza un Link directo */}
+      {!items || items.length === 0 ? (
+        <Link
+          to={path || "#"}
+          className="px-3 w-full text-left flex items-center"
+        >
+          <Icon className="inline-block w-6 h-6 mr-2 -mt-2" />
+          {title}
+        </Link>
+      ) : (
+        // Si hay items, renderiza el botón desplegable
+        <>
+          <button
+            aria-expanded={isOpen}
+            className="px-3 w-full text-left flex items-center"
+            onClick={toggleMenu}
+          >
+            <Icon className="inline-block w-6 h-6 mr-2 -mt-2" />
+            {title}
+            <ChevronDown className="inline-block w-4 h-4 ml-auto" />
+          </button>
+          {isOpen && (
+            <ul className="pl-4">
+              {items.map((item, index) => (
+                <li
+                  key={index}
+                  className="rounded hover:shadow hover:bg-blue-950 py-2"
+                >
+                  <Link to={item.path} className="px-7">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </li>
+  )
+);
 
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-
-  // Definir el menú con los elementos estándar
-  const menuItems = [
-    { name: "Inicio", icon: <Home />, path: "/" },
+const Sidebar = ({ sidebarToggle }) => {
+  const [openMenu, setOpenMenu] = useState(null);
+  const menus = [
     {
-      name: "Nuevo Registro",
-      icon: <FilePlus2 />,
-      onClick: toggleDropdown, // Usar la función para abrir el dropdown
-      isDropdown: true, // Marcar este ítem como un dropdown
+      title: "Home",
+      icon: Home,
+      items: [
+        {label: "Volver al inicio", path: "/home"}
+      ],
     },
-    { name: "Bandeja de Entrada", icon: <Inbox />, path: "/registro" }, //Solo pusimos registro...
-    { name: "Documentos", icon: <FileText />, path: "/documentos" },
-    { name: "Configuración", icon: <Settings />, path: "/configuracion" },
+    {
+      title: "Nuevo Registro",
+      icon: FilePlus2,
+      items: [
+        { label: "Enviado", path: "" },
+        { label: "Recibido", path: "" },
+      ],
+    },
+    {
+      title: "Recibido",
+      icon: Inbox,
+      items: [{ label: "Ver", path: "/registro" }],
+    },
   ];
-
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <aside className="bg-gray-800 text-white h-screen w-1/4 p-5">
-        {/* Menú */}
-        <nav className="space-y-3">
-          {menuItems.map((item, index) => {
-            if (item.isDropdown) {
-              // Si es un ítem de dropdown, renderizam  os el botón y el submenú
-              return (
-                <div key={index}>
-                  <button
-                    onClick={item.onClick}
-                    className="flex items-center w-full p-2 hover:bg-gray-700 rounded"
-                  >
-                    {item.icon}
-                    <span className="flex-1">{item.name}</span>
-                    <ChevronDown
-                      className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-
-                  {/* Submenú */}
-                  <div
-                    className={`ml-6 space-y-2 transition-all duration-300 ease-in-out ${isDropdownOpen
-                      ? "max-h-[200px] opacity-100"
-                      : "max-h-0 opacity-0"
-                      } overflow-hidden`}
-                  >
-                    <Link
-                      to="/enviado"
-                      className="block p-2 text-gray-300 hover:bg-gray-700 rounded"
-                    >
-                      Enviado
-                    </Link>
-                    <Link
-                      to="/nuevo-registro"
-                      className="block p-2 text-gray-300 hover:bg-gray-700 rounded"
-                    >
-                      Recibido
-                    </Link>
-                  </div>
-                </div>
-              );
-            }
-
-            // Para los ítems normales
-            return (
-              <Link
-                key={index}
-                to={item.path}
-                className="flex items-center gap-3 p-2 hover:bg-gray-700 rounded"
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
-      {/* Contenido Principal */}
-      <div className="flex-1 p-5">
-        <h1>Bienvenido a la App</h1>
-        {/* Aquí se podría incluir tu lista o tabla */}
+    <div
+      className={`${
+        sidebarToggle ? "hidden" : "block"
+      } w-64 bg-gray-800 fixed h-full px-4 py-2`}
+    >
+      <div className="my-2 mb-4">
+        <h1 className="text-2x text-white font-bold">QUE</h1>
       </div>
+      <hr />
+      <ul className="mt-3 text-white font-bold">
+        {menus.map((menu, index) => (
+          <SidebarMenu
+            key={index}
+            title={menu.title}
+            icon={menu.icon}
+            items={menu.items}
+            isOpen={openMenu === menu.title}
+            toggleMenu={() =>
+              setOpenMenu(openMenu === menu.title ? null : menu.title)
+            }
+          />
+        ))}
+      </ul>
     </div>
   );
 };
-
 export default Sidebar;

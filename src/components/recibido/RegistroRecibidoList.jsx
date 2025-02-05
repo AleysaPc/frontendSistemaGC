@@ -19,7 +19,7 @@ export function RegistroRecibidoList() {
     return (
         <div>
             <Sidebar />
-            <div className="flex-1 p-5">
+            <div className="flex p-5">
                 <h2 className="text-xl font-bold">Lista de Registros Recibidos</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white border-collapse shadow-md border border-gray-300">
