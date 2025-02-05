@@ -1,0 +1,25 @@
+/* Layout de la página */
+.layout {
+    display: flex; /* Usamos Flexbox para distribuir el espacio */
+    height: 100vh; /* La altura será del 100% de la ventana */
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 250px; /* Puedes ajustar este ancho según lo necesites */
+  }
+  
+  /* Contenido principal */
+  .content {
+    flex-grow: 1; /* Esto hace que el contenido ocupe el espacio restante */
+    
+  }
+  
+  /* El contenido dentro de .flex */
+  .flex {
+    display: flex;
+    flex-direction: column; /* Para apilar el contenido de forma vertical */
+    height: 100%; /* Asegura que el contenido use toda la altura disponible */
+  }
+
+  

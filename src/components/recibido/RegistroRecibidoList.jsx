@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllRegistroRecibidos } from "../../api/recibido.api";
 import Sidebar from "../../Sidebar/Sidebar";
 
+
 export function RegistroRecibidoList() {
 
     const [registro, setRegistro] = useState([]);
@@ -17,9 +18,13 @@ export function RegistroRecibidoList() {
 
 
     return (
-        <div>
-            <Sidebar />
-            <div className="flex p-5">
+        <div class="flex">
+
+            <div class="w-1/4">
+                <Sidebar />
+            </div>
+
+            <div class="flex-1 p-5">
                 <h2 className="text-xl font-bold">Lista de Registros Recibidos</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white border-collapse shadow-md border border-gray-300">
@@ -44,7 +49,10 @@ export function RegistroRecibidoList() {
                             ))}
                         </tbody>
                     </table>
-                </div></div></div>
+                </div></div>
+        </div>
 
-            );
+    )
+    
+
 }

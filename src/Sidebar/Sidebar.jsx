@@ -41,7 +41,7 @@ const SidebarMenu = React.memo(
                   key={index}
                   className="rounded hover:shadow hover:bg-blue-950 py-2"
                 >
-                  <Link to={item.path} className="px-7">
+                  <Link to={item.path} className="px-2">
                     {item.label}
                   </Link>
                 </li>
