@@ -69,7 +69,7 @@ const Sidebar = ({ sidebarToggle }) => {
       icon: FilePlus2,
       items: [
         { label: "Enviado", path: "" },
-        { label: "Recibido", path: "" },
+        { label: "Recibido", path: "/nuevo-registro" },
       ],
     },
     {

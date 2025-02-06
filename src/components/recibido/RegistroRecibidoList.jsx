@@ -15,8 +15,7 @@ export function RegistroRecibidoList() {
         }
         loadRegistros();
     }, []);
-
-
+    
     return (
         <div class="flex">
 
