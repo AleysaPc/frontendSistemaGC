@@ -9,7 +9,7 @@ import ArchivoLink from "../shared/ArchivoLink";
 
 export function RegistroRecibidoList() {
   const { currentPage, handlePageChange } = usePagination();
-  const { data: response = {} } = useEntrantes(true, currentPage);
+  const { data: response = {} } = useEntrantes(false, currentPage); // Pasamos `false` para obtener la paginacion
   console.log(response);
 
   const entrantes = response.data?.results || response.data?.data || [];

@@ -60,9 +60,7 @@ const Sidebar = ({ sidebarToggle }) => {
     {
       title: "Home",
       icon: Home,
-      items: [
-        {label: "Volver al inicio", path: "/home"}
-      ],
+      items: [{ label: "Volver al inicio", path: "/home" }],
     },
     {
       title: "Nuevo Registro",
@@ -77,7 +75,16 @@ const Sidebar = ({ sidebarToggle }) => {
       icon: Inbox,
       items: [{ label: "Ver", path: "/registro" }],
     },
+    {
+      title: "Clientes",
+      icon: FileText, // Puedes cambiar el icono si lo deseas
+      items: [
+        { label: "Lista de Clientes", path: "/clientes" },
+        { label: "Nuevo Cliente", path: "/clientes/nuevo" },
+      ],
+    },
   ];
+  
   return (
     <div
       className={`${
