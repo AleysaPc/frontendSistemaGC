@@ -1,57 +1,83 @@
-import { useEffect, useState } from "react";
-import { getAllRegistroRecibidos } from "../../api/recibido.api";
+import Table from "../shared/Table";
 import Sidebar from "../../Sidebar/Sidebar";
-
+import useEntrantes from "../../hooks/useEntrantes";
+import { Navigation } from "../shared/Navigation";
+import usePagination from "../../hooks/usePagination";
+import Pagination from "../shared/Pagination";
+import { ActionButton } from "../shared/ActionButton";
+import ArchivoLink from "../shared/ArchivoLink";
 
 export function RegistroRecibidoList() {
+  const { currentPage, handlePageChange } = usePagination();
+  const { data: response = {} } = useEntrantes(true, currentPage);
+  console.log(response);
 
-    const [registro, setRegistro] = useState([]);
+  const entrantes = response.data?.results || response.data?.data || [];
+  const totalEntrantes = response.data?.count || 0;
+  const totalPages = Math.ceil(totalEntrantes / 10);
 
-    useEffect(() => {
-        async function loadRegistros() {
-            const res = await getAllRegistroRecibidos();
-            console.log(res.data);
-            setRegistro(res.data);
-        }
-        loadRegistros();
-    }, []);
-    
-    return (
-        <div class="flex">
+  const handleDetallesClick = (entrante) => {
+    navigate(`/editarEntrante/${entrante.id}`);
+  };
 
-            <div class="w-1/4">
-                <Sidebar />
-            </div>
+  const entrantesCampos = [
+    { key: "index", label: "N°" },
+    { key: "referencia", label: "N° de Registro" },
+    { key: "prioridad", label: "Prioridad" },
+    { key: "paginas", label: "Páginas" },
+    { key: "nombre_remitente", label: "Remitente" },
+    {
+      key: "ruta",
+      label: "Documento",
+      render: (item) => <ArchivoLink filePath={item.ruta} />,
+    },
+    {
+      key: "acciones",
+      label: "Acciones",
+      render: (item) => (
+        <ActionButton
+          onClick={() => handleDetallesClick(item)}
+          label="Editar"
+        />
+      ),
+    },
+  ];
 
-            <div class="flex-1 p-5">
-                <h2 className="text-xl font-bold">Lista de Registros Recibidos</h2>
-                <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border-collapse shadow-md border border-gray-300">
-                        <thead className="bg-gray-200">
-                            <tr>
-                                <th className="px-4 py-2 text-left border-b">Nro. Registro</th>
-                                <th className="px-4 py-2 text-left border-b">Fecha</th>
-                                <th className="px-4 py-2 text-left border-b">Referencia</th>
-                                <th className="px-4 py-2 text-left border-b">Fojas</th>
-                                <th className="px-4 py-2 text-left border-b">Remitente</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {registro.map((registro) => (
-                                <tr key={registro.idrecibido} className="hover:bg-slate-200">
-                                    <td className="px-4 py-2 border-b">{registro.idrecibido}</td>
-                                    <td className="px-4 py-2 border-b">{registro.fecha}</td>
-                                    <td className="px-4 py-2 border-b">{registro.referencia}</td>
-                                    <td className="px-4 py-2 border-b">{registro.fojas}</td>
-                                    <td className="px-4 py-2 border-b">{registro.remitente}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div></div>
-        </div>
+  return (
+    <div className="flex flex-wrap">
+      {/* Sidebar */}
+      <div className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 p-4">
+        <Sidebar />
+      </div>
 
-    )
-    
+      {/* Navigation y contenido */}
+      <div className="w-full sm:w-3/4 md:w-3/4 lg:w-3/4 p-4">
+        <Navigation
+          entityName="Documentos Recibidos"
+          listPath="/home"
+          subTitle="Lista de documentos recibidos"
+          actions={[
+            { to: "/crear", label: "Crear", icon: null, color: "blue" },
+            { to: "/buscar", label: "Buscar", icon: null, color: "green" },
+            { to: "/eliminar", label: "Eliminar", icon: null, color: "red" },
+            { to: "/editar", label: "Editar", icon: null, color: "yellow" },
+            { to: "/ver", label: "Reportes", icon: null, color: "purple" },
+          ]}
+        />
 
+        <hr className="my-4" />
+
+        {/* Tabla */}
+        <Table items={entrantes} fields={entrantesCampos} />
+        {/* Agregar paginación */}
+        {!response.all_data && totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </div>
+    </div>
+  );
 }

@@ -1,7 +1,6 @@
 import Sidebar from "../../Sidebar/Sidebar";
 import Header from "../../components/Header";
 import { useForm } from "react-hook-form";
-import { CreateRegistro } from "../../api/recibido.api";
 
 export function RegistroFormPage() {
   const {
