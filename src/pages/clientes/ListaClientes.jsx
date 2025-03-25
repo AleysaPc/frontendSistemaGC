@@ -18,9 +18,10 @@ export default function ListaClientes() {
   const totalClientes = response.data?.count || 0;
   const totalPages = Math.ceil(totalClientes / 10);
 
+  //funcion llamada que recibe un parametro = cliente
   const handleDetallesClick = (cliente) => { //boton
     console.log(cliente.id)
-    navigate(`/clienteEditar/${cliente.id}`);
+    navigate(`/clienteEditar/${cliente.id}`); //con navigate redirigimos a la pagina de editar
   };
 
   const clientesCampos = [
@@ -28,6 +29,8 @@ export default function ListaClientes() {
     { key: "nombre", label: "nombre" },
     { key: "apellido", label: "apellido" },
     { key: "cargo", label: "cargo" },
+    { key: "nombre_institucion", label: "Institucion" },
+    
     {
       key: "acciones",
       label: "Acciones",
@@ -41,6 +44,8 @@ export default function ListaClientes() {
 
 
   ];
+
+  console.log("Clientes", clientes);
 
   return (
     <div className="flex flex-wrap">
@@ -56,7 +61,7 @@ export default function ListaClientes() {
           listPath="/home" // Al hacer click en el titulo te lleva a otra pagina
           subTitle="Lista de Clientes"
           actions={[
-            { to: "/crear", label: "Crear", icon: null, color: "blue" },
+            { to: "/cliente/nuevo", label: "Crear", icon: null, color: "blue" },
             { to: "/buscar", label: "Buscar", icon: null, color: "green" },
             { to: "/eliminar", label: "Eliminar", icon: null, color: "red" },
             { to: "/editar", label: "Editar", icon: null, color: "yellow" },

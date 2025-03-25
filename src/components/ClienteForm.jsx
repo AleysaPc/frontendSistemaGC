@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCliente } from "../hooks/useCliente";
 import { useClienteMutations } from "../hooks/useClienteMutations"
-//import { InputField } from "@/components/shared/InputField";
-//import { SelectField } from "@/components/shared/SelectField";
+import { InputField } from "../components/shared/InputField";
+import { SelectField } from "./shared/SelectField";
 //import { ToggleSwitch } from "@/components/shared/ToggleSwitch";
 import { ActionButton } from "@/components/shared/ActionButton";
 import { FaArrowLeft } from "react-icons/fa";
@@ -12,7 +12,7 @@ export default function ClienteForm() {
   const { id } = useParams ();
   const navigate = useNavigate();
 
-  const { crearCliente, actualizarCliente } = (useClienteMutations);
+  const { crearCliente, actualizarCliente } = useClienteMutations();
   const { data: cliente, isLoading } = useCliente(id);
 
   const [formValues, setFormValues] = useState({
@@ -60,22 +60,24 @@ export default function ClienteForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { id, ...data } = formValues;
+    const { id, ...data } = formValues; //Se extrae el id del formValues
+
+    console.log(data);
 
     const mutation = id ? actualizarCliente : crearCliente;
     mutation.mutate(
-      { id: id || undefined, data: dataToSend },
-      { onSuccess: () => navigate("/clienteFormPage") }
+      { id: id || undefined, data },
+      { onSuccess: () => navigate("/clientes") }
     );
   };
 
-  if (isLoading) return <p>Cargando producto...</p>;
+  if (isLoading) return <p>Cargando...</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 shadow-lg rounded-lg">
       <div className="flex items-center justify-between mb-4">
         <ActionButton
-          to="/clienteFomPage"
+          to="/clientes"
           label="Volver"
           icon={FaArrowLeft}
           color="blue"
@@ -109,12 +111,12 @@ export default function ClienteForm() {
           value={formValues.cargo}
           onChange={handleInputChange}
         />
-        <SelectField
+        <InputField
           label="Email"
           name="email"
           value={formValues.email}
           onChange={handleInputChange}
-          options={categoriasOptions}
+          
         />
       
         <ActionButton
