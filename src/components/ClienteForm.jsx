@@ -1,92 +1,129 @@
-import React, { useState, useEffect } from "react";
-import { useCliente } from "../hooks/useCliente" // Hook para obtener un cliente por ID
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useCliente } from "../hooks/useCliente";
+import { useClienteMutations } from "../hooks/useClienteMutations"
+//import { InputField } from "@/components/shared/InputField";
+//import { SelectField } from "@/components/shared/SelectField";
+//import { ToggleSwitch } from "@/components/shared/ToggleSwitch";
+import { ActionButton } from "@/components/shared/ActionButton";
+import { FaArrowLeft } from "react-icons/fa";
 
-const ClienteForm = ({ initialData, onSubmit }) => {
-  const { id } = useParams(); // Obtener ID de la URL (si existe)
-  const { data: clienteData, isLoading } = useCliente(id); // Obtener cliente
-  const [cliente, setCliente] = useState(initialData || {
-    nombre: "",
-    apellido: "",
-    cargo: "",
-    email: "",
-    institucion: "",
+export default function ClienteForm() {
+  const { id } = useParams ();
+  const navigate = useNavigate();
+
+  const { crearCliente, actualizarCliente } = (useClienteMutations);
+  const { data: cliente, isLoading } = useCliente(id);
+
+  const [formValues, setFormValues] = useState({
+    id : "",
+    nombre : "",
+    apellido : "",
+    cargo : "",
+    email : "",
+    institucion :"",
+    
   });
 
-  useEffect(() => {
-    if (clienteData) {
-      setCliente(clienteData); // Rellenar el formulario con los datos obtenidos
-    }
-  }, [clienteData]);
 
-  const handleChange = (e) => {
-    setCliente({ ...cliente, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (cliente?.data) {
+      const {
+        id,
+        nombre,
+        apellido,
+        cargo, 
+        email,
+        institucion,
+      } = cliente.data;
+      setFormValues({
+        id: id || "",
+        nombre: nombre || "",
+        apellido: apellido || "",
+        cargo: cargo || "",
+        email: email || "",
+        institucion: institucion || "",
+      });
+    }
+  }, [cliente]);
+
+  const handleInputChange = useCallback((e) => {
+    setFormValues((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }, []);
+
+  const handleToggleChange = (value) => {
+    setFormValues((prevState) => ({ ...prevState, estado: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(cliente);
+    const { id, ...data } = formValues;
+
+    const mutation = id ? actualizarCliente : crearCliente;
+    mutation.mutate(
+      { id: id || undefined, data: dataToSend },
+      { onSuccess: () => navigate("/clienteFormPage") }
+    );
   };
 
-  if (isLoading) return <p>Cargando datos del cliente...</p>;
+  if (isLoading) return <p>Cargando producto...</p>;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-indigo-600">
-        {id ? "Editar Cliente" : "Nuevo Cliente"}
-      </h2>
+    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 shadow-lg rounded-lg">
+      <div className="flex items-center justify-between mb-4">
+        <ActionButton
+          to="/clienteFomPage"
+          label="Volver"
+          icon={FaArrowLeft}
+          color="blue"
+        />
+        <h1 className="text-2xl font-semibold text-blue-900">
+          {formValues.id ? "Editar" : "Crear Nuevo Registro"}
+        </h1>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
+        <InputField
+          label="Nombre"
           type="text"
           name="nombre"
-          placeholder="Nombre"
-          value={cliente.nombre}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
+          value={formValues.nombre}
+          onChange={handleInputChange}
           required
         />
-        <input
+        <InputField
+          label="Apellido"
           type="text"
           name="apellido"
-          placeholder="Apellido"
-          value={cliente.apellido}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
+          value={formValues.apellido}
+          onChange={handleInputChange}
           required
         />
-        <input
+        <InputField
+          label="Cargo"
           type="text"
           name="cargo"
-          placeholder="Cargo"
-          value={cliente.cargo}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
+          value={formValues.cargo}
+          onChange={handleInputChange}
         />
-        <input
-          type="email"
+        <SelectField
+          label="Email"
           name="email"
-          placeholder="Email"
-          value={cliente.email}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
+          value={formValues.email}
+          onChange={handleInputChange}
+          options={categoriasOptions}
         />
-        <input
-          type="text"
-          name="institucion"
-          placeholder="Institución"
-          value={cliente.institucion}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        />
-        <button
+      
+        <ActionButton
           type="submit"
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md"
-        >
-          {id ? "Actualizar" : "Registrar"}
-        </button>
+          label={formValues.id ? "Guardar Cambios" : "Crear Registro"}
+          color="blue"
+          disabled={crearCliente.isLoading || actualizarCliente.isLoading}
+        />
       </form>
     </div>
   );
-};
-
-export default ClienteForm;
+}

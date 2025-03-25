@@ -39,7 +39,7 @@ const AppRoutes = () => {
           <Route path="/nuevo-registro" element={<RegistroFormPage />} />
           <Route path="/clientes" element={<ListaClientes />} />
           <Route path="/clientes/nuevo" element={<ClienteFormPage />} />
-          <Route path="/clientes/:id/editar" element={<ClienteFormPage />} />
+          <Route path="/clienteEditar/:id" element={<ClienteFormPage />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>

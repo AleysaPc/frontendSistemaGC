@@ -1,12 +1,15 @@
-import  Table  from "../../components/shared/Table";
+import Table from "../../components/shared/Table";
 import Sidebar from "../../Sidebar/Sidebar";
 import useClientes from "../../hooks/useClientes";
 import { Navigation } from "../../components/shared/Navigation";
 import usePagination from "../../hooks/usePagination";
 import Pagination from "../../components/shared/Pagination";
+import { ActionButton } from "../../components/shared/ActionButton";
+import { useNavigate } from "react-router-dom";
 
 
 export default function ListaClientes() {
+  const navigate = useNavigate()
   const { currentPage, handlePageChange } = usePagination();
   const { data: response = {} } = useClientes(false, currentPage); // Pasamos `false` para obtener la paginacion
   console.log(response);
@@ -16,12 +19,27 @@ export default function ListaClientes() {
   const totalPages = Math.ceil(totalClientes / 10);
 
   const handleDetallesClick = (cliente) => { //boton
-    navigate(`/editarCliente/${cliente.id}`);
+    console.log(cliente.id)
+    navigate(`/clienteEditar/${cliente.id}`);
   };
 
   const clientesCampos = [
     { key: "index", label: "N°" },
-    
+    { key: "nombre", label: "nombre" },
+    { key: "apellido", label: "apellido" },
+    { key: "cargo", label: "cargo" },
+    {
+      key: "acciones",
+      label: "Acciones",
+      render: (item) => (
+        <ActionButton
+          onClick={() => handleDetallesClick(item)}
+          label="Editar"
+        />
+      ),
+    },      
+
+
   ];
 
   return (
