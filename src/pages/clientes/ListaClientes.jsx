@@ -29,7 +29,7 @@ export default function ListaClientes() {
     { key: "nombre", label: "nombre" },
     { key: "apellido", label: "apellido" },
     { key: "cargo", label: "cargo" },
-    { key: "nombre_institucion", label: "Institucion" },
+    //{ key: "nombre_institucion", label: "Institucion" },
     
     {
       key: "acciones",

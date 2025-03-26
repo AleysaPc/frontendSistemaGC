@@ -3,7 +3,7 @@ import { useMutationWithToast } from "./useMutationWithToast";
 
 export const useClienteMutations = () => {
   const crearCliente = useMutationWithToast(
-    ClienteApi.create,
+    ({data}) => ClienteApi.create(data),
     "Creando Nuevo Registro...",
     "Registro creado con éxito 🎉",
     "clientes" // Invalida la query de productos

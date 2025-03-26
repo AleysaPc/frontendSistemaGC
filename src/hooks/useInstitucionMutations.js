@@ -1,4 +1,4 @@
-import { ClienteApi, InstitucionApi } from "../api/cliente.Api";
+import { InstitucionApi } from "../api/cliente.Api";
 import { useMutationWithToast } from "./useMutationWithToast";
 
 export const useInstitucionMutations = () => {
@@ -6,15 +6,15 @@ export const useInstitucionMutations = () => {
     InstitucionApi.create,
     "Creando Nuevo Registro...",
     "Registro creado con éxito 🎉",
-    "institucion" // Invalida la query de productos
+    "entrantes" // Invalida la query de productos
   );
 
   const actualizarInstitucion = useMutationWithToast(
-    ({ id, data }) => ClienteApi.update(id, data),
+    ({ id, data }) => InstitucionApi.update(id, data),
     "Actualizando registro...",
     "Registro actualizado con éxito ✅",
     "entrantes"
   );
 
-  return { crearEntrante, actualizarEntrante };
+  return { crearInstitucion, actualizarInstitucion };
 };
